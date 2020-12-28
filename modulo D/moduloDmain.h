@@ -28,7 +28,7 @@ int get_info_bloco(FILE *f,int tam_bloco,NODO* nodo,int flag_rle);
 unsigned int arr_to_unsigned(char *codi,int N);
 
 NODO *cria_NODOS(unsigned int arr_codigos[],int arr_carater[],int arr_alturas[],int tam);
-NODO* putinha(FILE *f,int tam_bloco);
+NODO* make_NODO(FILE *f,int tam_bloco);
 
 void Dmain(char nome_shaf[],char nome_cod[]);
 
