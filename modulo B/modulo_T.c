@@ -3,7 +3,7 @@
 #include "moduloB.h"
 #include <time.h>
 
-
+//Função que cria um novo ficheiro cod
 void modulo_T (char *ficheiroFreq, char *ficheiroCod){
     FILE *f = fopen(ficheiroFreq, "rb");
     if(f==NULL) {
