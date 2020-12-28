@@ -438,7 +438,7 @@ NODO * cria_NODOS(unsigned int arr_codigos[],int arr_carater[],int arr_alturas[]
 
 
 
-NODO* putinha(FILE *f,int tam_bloco)
+NODO* make_NODO(FILE *f,int tam_bloco)
 {
     int contador=0,i=0;
     char c;
@@ -556,7 +556,7 @@ void Dmain(char nome_shaf[],char nome_cod[])
     {
         tam_bloco_cod = get_tam_bloco(filecod);
         
-        NODO *nodinho = putinha(filecod,tam_bloco_cod);
+        NODO *nodinho = make_NODO(filecod,tam_bloco_cod);
         c = fgetc(filecod);//carrega outro arroba;
         /*
         *
@@ -604,6 +604,13 @@ void Dmain(char nome_shaf[],char nome_cod[])
  
  return;
 }
+
+
+
+
+
+
+
 
 
 
