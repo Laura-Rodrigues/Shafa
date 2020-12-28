@@ -30,7 +30,7 @@ int tamBlocos (FILE *f, int bloco){
 }
 */
 
-
+//Função que recebe um array freqs e um ficheiro.Esta passa o valores das frequências do ficheiro para o array freqs
 void freqToArray (int freqs[], FILE *f) {
     char c, aux[10];
     int i=0, j=0, r=0;
@@ -60,13 +60,13 @@ void freqToArray (int freqs[], FILE *f) {
         }
     }
 }
-
+//Funçao que serve para trocar valores (auxiliar da decrescenteSortSimb e da crescenteSortSimb)
 void swap(int v[], int x, int y){
     int temp = v[x];
     v[x] = v[y];
     v[y] = temp;
 }
-
+// Funçao que ordena de forma decrescente as frequências e os simbolos correspondentes
 void decrescenteSortSimb (int v[], int s[], int N){
     for(int i=0; i<N;i++) s[i]=i;
     for(int i=0; i<N-1; i++){
@@ -78,14 +78,14 @@ void decrescenteSortSimb (int v[], int s[], int N){
         }
     }
 }
-
+// Funçao que serve para trocar valores
 void swapChar(unsigned char *v[], int x, int y){
     unsigned char *temp = v[x];
     v[x] = v[y];
     v[y] = temp;
 }
 
-
+// Funçao que ordena por ordem crescente os simbolos e a codes
 void crescenteSortSimb (unsigned char *v[], int s[], int N){
     for(int i=0; i<N-1; i++){
         for (int j=i+1; j<N; j++){
@@ -97,7 +97,7 @@ void crescenteSortSimb (unsigned char *v[], int s[], int N){
     }
 }
 
-
+//Soma os valores das frequencias q estao na freq
 int soma(const int freq[], int i, int j){
     int sum = 0;
     for (; i <= j; i++)
@@ -105,7 +105,7 @@ int soma(const int freq[], int i, int j){
 
     return sum;
 }
-
+// calcula a posição da melhor divisão do array
 int melhorDiv (int freq[],int i,int j){
     int mindif, dif, indice, div, g1, total;
     div=i; g1=0;
@@ -122,12 +122,13 @@ int melhorDiv (int freq[],int i,int j){
     indice = div-1;
     return indice;
 }
-
+// adiciona um bit a cada string de cada posiçao no array ( usada para adicionar o bit 1 ou 0 )
 void add_bit_to_code( char *bit, unsigned char *codes[], int start, int end) {
     for(int i =start; i <= end; i++) strcat(codes[i],bit);
 
 }
-
+// Função que cria o codigo shannon-fanno usando a melhordiv para dividir o array na melhor posiçao e adicionar o bit 0 à primeira
+// parte da divisao ,o bit 1 à segunda parte e assim sucessivamente até só haver um elemento
 void shannon (int freqs[], unsigned char *codes[], int start, int end){
     while (!freqs[end] && end>start) end--;
     if (start != end){
