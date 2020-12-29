@@ -1,2 +1,2 @@
-# Shafa A vida é mesmo Assim
+# Shafa A vida é mesmo assim
 Projeto CD
