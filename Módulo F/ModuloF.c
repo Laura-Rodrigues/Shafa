@@ -121,7 +121,6 @@ void acrescentaNumFile (char *nomeficheiro, int n){
     Função que calcula a frequência de cada caracter
 */
 void calculaFreqs (unsigned char *bufferBloco, unsigned long *freq, unsigned long tamBloco){
-//memcmp para a freq....? inicializar a 0
     int i;
     for (i = 0; i < tamBloco; i++){
         freq[bufferBloco[i]]++;
@@ -144,7 +143,6 @@ unsigned long fileToBloco (char *fileInicial, unsigned long tamBloco, unsigned l
 
     fclose(fp);
     return bytes_lidos;
-    //devia dar return do bytes_lidos aka int porque permite ver se ele leu o tamanho do bloco todo ou se ficou a meio
 }
 
 /*
@@ -155,9 +153,7 @@ unsigned long fileToBloco (char *fileInicial, unsigned long tamBloco, unsigned l
     modulo = 2 -> ficheiro .FREQ
 */
 void inicializaFile (char *nomefile, int modulo, char *nomeFinal , long long nblock){
-    strcpy(nomeFinal, nomefile);
-    //modulo == 0 => RLE, modulo == 1 => RLE.FREQ ; modulo == 2 => .FREQ
-    
+    strcpy(nomeFinal, nomefile); 
     if (modulo == 0) strcat(nomeFinal, ".rle");
     if (modulo == 1) strcat(nomeFinal, ".rle.freq");
     if (modulo == 2) strcat(nomeFinal, ".freq");
@@ -177,7 +173,7 @@ void inicializaFile (char *nomefile, int modulo, char *nomeFinal , long long nbl
 unsigned long long  tamfileAux (char *file, unsigned long *tamBlock){
     long size_of_last_block;
     FILE *fp = fopen (file, "rb");
-    long long nblock = fsize (fp, NULL, tamBlock ,&size_of_last_block); //deviamos fazer para pastas zipadas como o stor? Isso pode ser um ficheiro tipo....?
+    long long nblock = fsize (fp, NULL, tamBlock ,&size_of_last_block);
     fclose(fp);
     unsigned long long sizefile = (nblock-1) * (*tamBlock) + size_of_last_block;
     return sizefile;
@@ -194,7 +190,7 @@ int moduloF (char *fileInicial, unsigned long tamBlock, int obrigatorioRLE){
     long size_of_last_block;
     unsigned long bytes_lidos, freq[256], tamRLE;
     FILE *fp = fopen (fileInicial, "rb");
-    long long nblock = fsize (fp, NULL, &tamBlock ,&size_of_last_block); //deviamos fazer para pastas zipadas como o stor? Isso pode ser um ficheiro tipo....?
+    long long nblock = fsize (fp, NULL, &tamBlock ,&size_of_last_block);
     fclose(fp);
     unsigned long arrayTamRLE[nblock];
     unsigned long long sizefile = (nblock-1) * tamBlock + size_of_last_block, sizefileRLE;
