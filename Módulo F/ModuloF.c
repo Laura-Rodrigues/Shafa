@@ -179,8 +179,6 @@ unsigned long long  tamfileAux (char *file, unsigned long *tamBlock){
     return sizefile;
 }
 
-//j há  vezes que é int outra que é unsigned long
-//Se usarmos a função fsize do stor, tem uma cena fixe, porque, podemos usar o int do tamanho no ultimo bloco para a 
 int moduloF (char *fileInicial, unsigned long tamBlock, int obrigatorioRLE){
     clock_t begin = clock();
     time_t now = time ( NULL );
