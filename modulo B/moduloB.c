@@ -88,7 +88,7 @@ void swapChar(unsigned char *v[], int x, int y){
     v[y] = temp;
 }
 
-/* Função que ordena por ordem crescente a codes de acordo com os símbolos associados */
+/* Função que ordena pela ordem ordem inicial (que tinha sido guardada através dos símbolos) a codes */
 void crescenteSortSimb (unsigned char *v[], int s[], int N){
     for(int i=0; i<N-1; i++){
         for (int j=i+1; j<N; j++){
