@@ -25,7 +25,11 @@ int main (int argc, char *argv[]){
         //strcpy(nomeficheiroshaf, argv[1]);
         moduloF (argv[1], tamBlock, obrigatorio);
         strcat(nomeficheiro,".freq"); //ou .rle
-        /*moduloT(nomeficheiro); //arranjar metodo de alterar os nomes dos files //Neste momento o código s'está a funcionar para o nome do file dado
+        /*
+        //time_t now = time ( NULL );
+        //struct tm *date = localtime ( &now );
+        //printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
+        moduloT(nomeficheiro); //arranjar metodo de alterar os nomes dos files //Neste momento o código s'está a funcionar para o nome do file dado
         strcat(nomeficheiro,".cod");
         moduloC(nomeficheiro);
         strcat(nomeficheiroshaf,".shaf");
