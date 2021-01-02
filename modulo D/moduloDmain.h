@@ -2,7 +2,8 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <math.h>
-#include <time.h>  
+#include <time.h>
+#include <string.h>
 #define MODULODMAIN_H_
 
 
@@ -24,12 +25,12 @@ void escreve_ficheiro(char simbolos[],char *filename,int *posicao,int *tamanho);
 char  *descompressao_shafa(unsigned char arr[],int tam_bloco,NODO *codes,int *tamanho);
 char  *descompressao_shafa_rle(unsigned char arr[],int tam_bloco,NODO *codes,int *tamanho);
 
-int get_info_bloco(FILE *f,int tam_bloco,NODO* nodo,int flag_rle);
+int get_info_bloco(FILE *f,int tam_bloco,NODO* nodo,int flag_rle,int descodificar,char filename[]);
 unsigned int arr_to_unsigned(char *codi,int N);
 
 NODO *cria_NODOS(unsigned int arr_codigos[],int arr_carater[],int arr_alturas[],int tam);
 NODO* make_NODO(FILE *f,int tam_bloco);
 
-void Dmain(char nome_shaf[],char nome_cod[]);
+void Dmain(char nome_shaf[],char nome_cod[],int descodificar,char filename[]);
 
 #endif
