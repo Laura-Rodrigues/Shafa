@@ -4,7 +4,7 @@
 #include "string.h"
 #include "Manual.h"
 int main (int argc, char *argv[]){
-    if (argc < 2){
+     if (argc < 2){
         printf("ERRO: Informação em falta. \nEm caso de dúvida use o comando manual.\n");
         return 0;
     }
@@ -12,11 +12,10 @@ int main (int argc, char *argv[]){
         manual(1);    
         printf("Invoque novamente o programa.\n");
     }
-
     else{
         int obrigatorio = 0;
         unsigned long tamBlock = 65536;
-        char nomeficheiro[100];
+        char nomeficheiro[100] = "0", nomefreq[100], nomerle[100], nomecod[100], nomeshaf[100];
         int modulo = 0; // 0 -> todos os módulos, 1 -> modulo f, 2 -> modulo t, 3 -> modulo c, 4 -> modulo d
         for (int i = 1; i < argc; i++){
             if (strcmp (argv[i], "-b") == 0 && i <= argc-2){
@@ -46,9 +45,13 @@ int main (int argc, char *argv[]){
             }
         }
         FILE *fp = fopen (nomeficheiro, "r");
-       // long size_of_last_block;
-        //long long nblock = 2;//fsize (fp, NULL, &tamBlock ,&size_of_last_block);
-        //unsigned long long sizefile = (nblock-1) * tamBlock + size_of_last_block;
+        long size_of_last_block;
+        long long nblock = fsize (fp, NULL, &tamBlock ,&size_of_last_block);
+        unsigned long long sizefile = (nblock-1) * tamBlock + size_of_last_block;
+        if (sizefile <1024){
+            printf("Tamanho do ficheiro insuficiente!\n");
+            return 0;
+        }
         if ( fp == NULL ){
             printf("Ficheiro inexistente.\nEm caso de dúvida utilizar código manual\n");
             return 0;
@@ -56,20 +59,22 @@ int main (int argc, char *argv[]){
         fclose (fp);
         time_t now = time ( NULL );
         struct tm *date = localtime ( &now );
-        if (modulo == 1) moduloF(nomeficheiro, tamBlock, obrigatorio);
+        if (modulo == 1) moduloF(nomeficheiro, tamBlock, &obrigatorio);
         else if (modulo == 2){
             printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
-            printf ("2\n");
+            temporario(nomeficheiro);
         }
         else if (modulo == 3) printf ("3\n");
         else if (modulo == 4) printf ("4\n");
         else {
-            moduloF(nomeficheiro, tamBlock, obrigatorio); 
+            moduloF(nomeficheiro, tamBlock, &obrigatorio); 
             printf("\n");
             printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
-            printf ("2\n"); 
+            if (obrigatorio == 0) temporario(strcat(nomeficheiro, ".freq"));
+            else temporario(strcat(nomeficheiro, ".rle.freq"));
             printf ("3\n"); 
-            printf ("4\n");}
-   } 
+            printf ("4\n");
+        }
+    } 
     return 0;
 }
