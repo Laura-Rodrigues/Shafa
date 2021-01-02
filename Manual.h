@@ -10,12 +10,7 @@ int manual(int a){
         if (opcao == 1) {
             printf("A codificação de Shannon-Fano é um método estatístico de compressão sem perda de dados que gera códigos de tamanho variável para cada símbolo dos conjunto de dados a ser comprimido de acordo com sua probabilidade de ocorrência.\n");
             printf("Os passos/módulos envolvidos nesse programa são:\n-Módulo F: módulo responsável pelo cálculo das frequências de cada simbolo e pela compressão RLE.\n-Módulo T: \n-Módulo C:\n-Módulo D: \n");
-            printf ("Se pretender saber mais sobre cada módulo, indique escrevendo a letra correspondente a cada módulo, senão escreva a letra n\n");
-            scanf( "%s", &modulo);
-            while (strcmp(modulo, "n")!= 0){
-                printf ( "Por definir\n");
-                scanf( "%s", &modulo);
-            }
+            //printf ("Se pretender saber mais sobre cada módulo, indique escrevendo a letra correspondente a cada módulo, senão escreva a letra n\n");
         }
         else if (opcao == 2) printf ("Para evitar erros de _inexistência de ficheiros_ tenha em atenção os seguintes critérios:\n-Por favor, verifique se o documento existe na diretoria em que se encontra o programa Shafa.\n-A ordem dos argumentos é importante para este programa.\n");
         else if (opcao == 3) printf("-Atenção: Uma vez mais este problema pode estar relacionado com a ordem os inputs do programa. \n-É também importante que dentro da diretória do programa estejam os documentos necessários para cada módulo.\n-Se forem invocados módulos especificos é importante que os inputs tenham a seguinte estrutura: -m f, por exemplo, isto é, os espaços são importantes. ");
