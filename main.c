@@ -3,77 +3,73 @@
 #include "time.h"
 #include "string.h"
 #include "Manual.h"
-
 int main (int argc, char *argv[]){
-    int obrigatorio = 0;
-    unsigned long tamBlock = 65536;
-    char nomeficheiro[100];
     if (argc < 2){
         printf("ERRO: Informação em falta. \nEm caso de dúvida use o comando manual.\n");
         return 0;
     }
-    if (strcmp (argv[1], "manual") == 0 )
+    if (strcmp (argv[1], "manual") == 0 ){
         manual(1);    
-    else if (argc == 2){
-        FILE *fp = fopen (argv[1], "r");
+        printf("Invoque novamente o programa.\n");
+    }
+
+    else{
+        int obrigatorio = 0;
+        unsigned long tamBlock = 65536;
+        char nomeficheiro[100];
+        int modulo = 0; // 0 -> todos os módulos, 1 -> modulo f, 2 -> modulo t, 3 -> modulo c, 4 -> modulo d
+        for (int i = 0; i < argc; i++){
+            if (strcmp (argv[i], "-b") == 0 && i <= argc-2){
+                if (strcmp (argv[i+1], "K") == 0) tamBlock =655360;
+                else if (strcmp (argv[i+1], "m") == 0) tamBlock = 8388608;
+                else if (strcmp (argv[i+1], "M") == 0) tamBlock = 67108864;
+                i++;
+            }
+            else if (strcmp (argv[i], "-c") == 0 && i <= argc-2){ 
+                if (strcmp (argv[i+1], "r") == 0 ) obrigatorio = 1;
+                i++;
+            }
+            else if (strcmp (argv[i], "-d") == 0 && i <= argc-2){
+                if (strcmp (argv[i+1], "r") == 0);
+                else if (strcmp (argv[i+1], "s") == 0);
+                i++;
+            }
+            else if (strcmp (argv[i], "-m") == 0 && i <= argc-2){
+                if (strcmp (argv[i+1], "f") == 0) modulo = 1;
+                else if (strcmp (argv[i+1], "t")== 0) modulo = 2; //moduloT(argv[1]);
+                else if (strcmp (argv[i+1], "c")== 0) modulo = 3; //moduloC(argv[1]);
+                else if (strcmp (argv[i+1], "d")== 0)modulo = 4; //verificar argv[2]; moduloD(argv[1], argv[2]);
+                i++;
+            } 
+            else{
+                strcpy (nomeficheiro,argv[i]);
+            }
+        }
+        FILE *fp = fopen (nomeficheiro, "r");
+       // long size_of_last_block;
+        //long long nblock = 2;//fsize (fp, NULL, &tamBlock ,&size_of_last_block);
+        //unsigned long long sizefile = (nblock-1) * tamBlock + size_of_last_block;
         if ( fp == NULL ){
             printf("Ficheiro inexistente.\nEm caso de dúvida utilizar código manual\n");
             return 0;
         }
         fclose (fp);
-        strcpy(nomeficheiro, argv[1]);
-        //strcpy(nomeficheiroshaf, argv[1]);
-        moduloF (argv[1], tamBlock, obrigatorio);
-        strcat(nomeficheiro,".freq"); //ou .rle
-        /*
-        //time_t now = time ( NULL );
-        //struct tm *date = localtime ( &now );
-        //printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
-        moduloT(nomeficheiro); //arranjar metodo de alterar os nomes dos files //Neste momento o código s'está a funcionar para o nome do file dado
-        strcat(nomeficheiro,".cod");
-        moduloC(nomeficheiro);
-        strcat(nomeficheiroshaf,".shaf");
-        moduloD(no); //tem que receber dos ficheiros diferentes....
-        atenção aos nomes dos ficheiros*/
-    }
-    else{
-        for (int i = 0; i < argc; i++){
-            if (strcmp (argv[i], "-b") == 0 && i <= argc-2){
-                if (strcmp (argv[i+1], "K") == 0) tamBlock = 655360; //655360;
-                else if (strcmp (argv[i+1], "m") == 0) tamBlock = 8388608; //8388608;
-                else if (strcmp (argv[i+1], "M") == 0) tamBlock = 67108864; //67108864;
-                i++;
-            }
-            if (strcmp (argv[i], "-c") == 0 && i <= argc-2){
-                if (strcmp (argv[i+1], "r") == 0 ) obrigatorio = 1;
-                i++;
-            }
-            if (strcmp (argv[i], "-d") == 0 && i <= argc-2){
-                if (strcmp (argv[i+1], "r") == 0);
-                else if (strcmp (argv[i+1], ""))
-                i++;
-            }
-            if (strcmp (argv[i], "-m") == 0 && i <= argc-2){
-                if (strcmp (argv[i+1], "f") == 0) moduloF(argv[1], tamBlock, obrigatorio);
-                else if (strcmp (argv[i+1], "t")== 0); //moduloT(argv[1]);
-                else if (strcmp (argv[i+1], "c")== 0); //moduloC(argv[1]);
-                else if (strcmp (argv[i+1], "d")== 0); //moduloD(argv[1], argv[2]);
-                i++;
-            } 
+        time_t now = time ( NULL );
+        struct tm *date = localtime ( &now );
+        if (modulo == 1) moduloF(nomeficheiro, tamBlock, obrigatorio);
+        else if (modulo == 2){
+            printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
+            printf ("2\n");
         }
-
-    // verificar se não é .rle, .freq?    
-
-/*
-    //verificar se o ficheiro existe
-    FILE *fp = fopen (fileInicial, "rb");
-    if ( fp == NULL ){
-        printf ("Ficheiro inválido.\n");
-        return 0;
-    } 
-    fclose (fp);
-    moduloF(fileInicial, tamBlock, obrigatorioRLE);
-*/
-    }
+        else if (modulo == 3) printf ("3\n");
+        else if (modulo == 4) printf ("4\n");
+        else {
+            moduloF(nomeficheiro, tamBlock, obrigatorio); 
+            printf("\n");
+            printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
+            printf ("2\n"); 
+            printf ("3\n"); 
+            printf ("4\n");}
+   } 
     return 0;
 }
