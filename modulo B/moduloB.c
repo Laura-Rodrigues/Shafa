@@ -1,35 +1,6 @@
 #include "moduloB.h"
 
 
-
-/*
-int numBlocos (FILE *f){
-    char c ;
-    int blocos=0;
-    if(f==NULL) {
-        printf("erro");
-        fclose(f);
-    }
-    else (fscanf (f,"@%c@%d@", &c, &blocos));
-    return blocos;
-}
-
-
-int tamBlocos (FILE *f, int bloco){
-    int contador=0, rep = 2*bloco,tamBloco;
-    char c ;
-    if (f != NULL && bloco != 0){
-        while ((c = fgetc(f)) != EOF && contador <= rep) {
-            if (contador == rep) {
-                fscanf(f,"%d@",&tamBloco);
-            }
-            if (c == '@') contador++;
-        }
-    }
-    return tamBloco;
-}
-*/
-
 /*Função que recebe um array freqs e um ficheiro.
 * Esta lê os valores das frequências do ficheiro e guarda-as no array freqs.
 */
