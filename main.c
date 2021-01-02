@@ -18,7 +18,7 @@ int main (int argc, char *argv[]){
         unsigned long tamBlock = 65536;
         char nomeficheiro[100];
         int modulo = 0; // 0 -> todos os módulos, 1 -> modulo f, 2 -> modulo t, 3 -> modulo c, 4 -> modulo d
-        for (int i = 0; i < argc; i++){
+        for (int i = 1; i < argc; i++){
             if (strcmp (argv[i], "-b") == 0 && i <= argc-2){
                 if (strcmp (argv[i+1], "K") == 0) tamBlock =655360;
                 else if (strcmp (argv[i+1], "m") == 0) tamBlock = 8388608;
