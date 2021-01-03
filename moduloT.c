@@ -157,7 +157,7 @@ void modulo_T (char *ficheiroFreq, char *ficheiroCod){
             unsigned char *codes[256];
             for(int i=0;i<256;i++) {
                 codes[i]=(unsigned char *)malloc(sizeof(unsigned char *)*256);
-                *(codes[i])=NULL;
+                //*(codes[i])=NULL;
             }
 
             shannon(freqs,codes,0,255);
