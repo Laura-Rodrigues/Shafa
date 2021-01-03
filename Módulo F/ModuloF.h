@@ -1,6 +1,12 @@
 #ifndef MODULOF_H
 #define MODULOF_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "time.h"
+#include "string.h"
+#include "fsize.h"
+
 /*
     Módulo F - parte do trabalho shafa grupo 16, UC de Comunicação de Dados MIEI 2020-2021
     Período de desenvolvimento de trabalho: 2 de dezembro de 2020 a 3 de janeiro de 2021
