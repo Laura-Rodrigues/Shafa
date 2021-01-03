@@ -60,6 +60,7 @@ strcpy(filename,cod);
 
  
 int descodificar_rle=0;
+int descodificar_sf=0;
  
 if ( !strcmp(argv[2],"-m") && !strcmp(argv[3],"d") )
 {
@@ -69,13 +70,14 @@ if ( !strcmp(argv[2],"-m") && !strcmp(argv[3],"d") )
     {
         if ( !strcmp(argv[5],"-r") )
         descodificar_rle = 1;
+        else if(!strcmp(argv[5],"-s"))
+        descodificar_sf = 1;
     }
     }
-
-     Dmain(shafa,cod,descodificar_rle,filename);
+     Dmain(shafa,cod,descodificar_rle,descodificar_sf,filename);
     
 }
-else printf("Erro no input\n"); 
+ else printf("Erro no input\n"); 
  return 0;
 
 }
