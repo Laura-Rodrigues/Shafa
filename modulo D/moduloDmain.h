@@ -31,6 +31,7 @@ unsigned int arr_to_unsigned(char *codi,int N);
 NODO *cria_NODOS(unsigned int arr_codigos[],int arr_carater[],int arr_alturas[],int tam);
 NODO* make_organizado_NODO(FILE *f,int tam_bloco);
 
-void Dmain(char nome_shaf[],char nome_cod[],int descodificar_rle,int descodificar_sf,char filename[]);
+void Dmain2(char nome_shaf[],char nome_cod[],int descodificar_rle,int descodificar_sf,char filename[]);
+int Dmain1(int argc, char *argv[]);
 
 #endif
