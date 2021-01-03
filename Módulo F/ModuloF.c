@@ -10,14 +10,8 @@
  "funcaoFREQ": função auxiliar para obter os ficheiros .freq; "printTerminal": escrita das informações no terminal; "moduloF": principal função do modulo.
 */
 
-
-
-#include <stdio.h>
-#include <stdlib.h>
-#include "time.h"
 #include "ModuloF.h"
-#include "string.h"
-#include "fsize.h"
+
 
 
 float compressao (unsigned long antes, unsigned long depois){
