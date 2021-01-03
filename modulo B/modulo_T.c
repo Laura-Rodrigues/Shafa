@@ -7,7 +7,7 @@
 void modulo_T (char *ficheiroFreq, char *ficheiroCod){
     FILE *f = fopen(ficheiroFreq, "rb");
     if(f==NULL) {
-        fputs ("File error",stderr); // se o file .freq estiver vazio ou não existir, p.e., se for dado um nome incorreto quando o módulo é chamado
+        fputs ("File error\n",stderr); // se o file .freq estiver vazio ou não existir, p.e., se for dado um nome incorreto quando o módulo é chamado
         exit (1);
     }
     else{
@@ -62,8 +62,8 @@ void modulo_T (char *ficheiroFreq, char *ficheiroCod){
     }
 }
 
-int Tmain() {
-    char *freq_name="aaa.txt.freq", *cod_name, *freq_extension=".freq",
+int Tmain(char *freq_name) {
+    char *cod_name, *freq_extension=".freq",
             *cod_extension=".cod", *extension;
 
     //escrita da extensão correta no ficheiro cod que vai ser criado
@@ -84,8 +84,8 @@ int Tmain() {
         double time_spent = (double)(end - begin) / CLOCKS_PER_SEC; // para escrever na consola o tempo que demorou a executar o módulo
 
     // Texto de saída na consola
-    printf("\nTempo de execução do módulo (milissegundos): %f ms\n", time_spent*1000);
-    printf("Ficheiro gerado: %s", cod_name);
+    printf("Tempo de execução do módulo (milissegundos): %f ms\n", time_spent*1000);
+    printf("Ficheiro gerado: %s\n", cod_name);
 }  
     return 0;
 }
