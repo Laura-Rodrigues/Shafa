@@ -3,17 +3,19 @@
  #include <math.h>
 
 //função que imprime tudo o que é pedido sobre o ficheiro no terminal
- void printFinal(int n_blocks, float taxaDeCompressao, double time, char *fileShaf, int *tamanhoBlocos, int *tamanhoBlocosCodificado){
+ void printFinal(int n_blocks, float taxaDeCompressao, double tempo, char *fileShaf, int *tamanhoBlocos, int *tamanhoBlocosCodificado){
     int i;
+    time_t now = time ( NULL );
+    struct tm *date = localtime (&now);
     printf ("\n\n\n\n");
-    printf ("Bruno Filipe, a93298, João Delgado, a93240, MIEI/CD, 1-jan-2021 \n");
+    printf ("Bruno Filipe, a93298, João Delgado, a93240, MIEI/CD, %d-%d-%d\n", date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
     printf ("Módulo: C (codificação dum ficheiro de símbolos)\n");
     printf ("Número de blocos: %d\n", n_blocks);
     for (i = 0; i < n_blocks; i++) 
         printf ("Tamanho antes/depois & taxa de compressão (bloco %d): %d/%d\n", i+1, tamanhoBlocos[i], tamanhoBlocosCodificado[i]);
     printf ("Taxa de compressão global: %f\n", taxaDeCompressao);
-    printf ("Tempo de execução do módulo (milissegundos): %f\n", time*1000);
-    printf ("%s\n", fileShaf);
+    printf ("Tempo de execução do módulo (milissegundos): %f\n", tempo*1000);
+    printf ("Ficheiro gerado: %s\n", fileShaf);
  }
 
 // funçao que retorna o numero de blocos do ficheiro, neste momento o apontador do ficheiro .cod aponta para o segundo '@'
@@ -138,8 +140,6 @@ void importFreq(char* codFile,int n_blocks, CODFREQ (*matriz)[SIMBOLOS]){
 
 unsigned char *codificaBloco(unsigned char *buffer, CODFREQ (*matriz)[SIMBOLOS], int tamanhoBloco, int bloco, int n_blocks, int *tamanhoBytes){
 
-    printf ("A codificar o bloco: %d\n", bloco);
-
     int tamanhoCodBits,             // tamanho em bits do bloco depois de ser codificado com os codigos shannon fanon 
         simbolo,                    // simbolo do ficheiro original a codificar 
         index,                      // indice onde se vai introduzir o byte codificado no buffer blocoCodificado
@@ -201,7 +201,6 @@ void codificaFile(char *filename, char tipo, int n_blocks, CODFREQ (*matriz)[SIM
         *tamanhoGlobal += tamanho;
         *tamanhoGlobalCodificado += tamanhoBlocoCodificado; 
     }
-    //printf ("%d", tamanhoBlocoCodificado);
     fclose(file);                                                                              // fechar o ficheiro original
     fclose(shaf);                                                                              // fechar o ficheiro .shaf
 }
@@ -246,13 +245,8 @@ int moduloC(char *filename){
         libertaMatriz(matriz, n_blocks);                                 // liberta o espaço alocado à matriz de codigos e frequencias
         taxaDeCompressao = tamanhoGlobalCodificado/tamanhoGlobal;        // taxa de compressão do ficheiro -> tamanho que tem apos ser codificado a dividir pelo tamanho que tem agora
         clock_t end = clock();                                           
-        double time = (double)(end - begin)/CLOCKS_PER_SEC;              // calcula o tempo de execução do módulo
-        printFinal(n_blocks, taxaDeCompressao, time, fileShaf, tamanhoBlocos, tamanhoBlocosCodificado); // imprimir as mensagens finais
+        double tempo = (double)(end - begin)/CLOCKS_PER_SEC;              // calcula o tempo de execução do módulo
+        printFinal(n_blocks, taxaDeCompressao, tempo, fileShaf, tamanhoBlocos, tamanhoBlocosCodificado); // imprimir as mensagens finais
     }
-    return 0;
-}
-
-int main(int argc, char *argv[]){
-    moduloC(argv[1]);
     return 0;
 }
