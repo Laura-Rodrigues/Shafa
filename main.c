@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include "moduloF.h"
-#include "moduloT.h"
-#include "modulo_c.h"
-#include "moduloDmain.h"
+#include "moduloF.c"
+#include "moduloT.c"
+#include "modulo_c.c"
+#include "moduloDmain.c"
 #include "time.h"
+//#include "fsize.h"
 #include "string.h"
 #include "Manual.h"
 
@@ -16,11 +17,11 @@ int main (int argc, char *argv[]){
         manual(1);    
         printf("Invoque novamente o programa.\n");
     }
-    
     else{
         int obrigatorio = 0;
         unsigned long tamBlock = 65536;
-        char nomeficheiro[100], nomefreq[100], nomecod[100], nomeshaf[100];
+        char nomeficheiro[100], nomefreq[100], nomeshaf[100];
+        int descodificar_rle = 0, descodificar_sf = 0;
         int modulo = 0; // 0 -> todos os módulos, 1 -> modulo f, 2 -> modulo t, 3 -> modulo c, 4 -> modulo d
         for (int i = 1; i < argc; i++){
             if (strcmp (argv[i], "-b") == 0 && i <= argc-2){
@@ -34,8 +35,8 @@ int main (int argc, char *argv[]){
                 i++;
             }
             else if (strcmp (argv[i], "-d") == 0 && i <= argc-2){
-                if (strcmp (argv[i+1], "r") == 0);
-                else if (strcmp (argv[i+1], "s") == 0);
+                if (strcmp (argv[i+1], "r") == 0) descodificar_rle = 1;
+                else if (strcmp (argv[i+1], "s") == 0)descodificar_sf = 1;
                 i++;
             }
             else if (strcmp (argv[i], "-m") == 0 && i <= argc-2){
@@ -67,7 +68,7 @@ int main (int argc, char *argv[]){
             Tmain(nomeficheiro);
         }
         else if (modulo == 3) moduloC(nomeficheiro);
-        else if (modulo == 4) printf ("4\n");
+        else if (modulo == 4) Dmain1(argc,nomeficheiro, descodificar_rle, descodificar_sf);
         else {
             long size_of_last_block;
             long long nblock = fsize (fp, NULL, &tamBlock ,&size_of_last_block);
@@ -78,13 +79,20 @@ int main (int argc, char *argv[]){
             }
             moduloF(nomeficheiro, tamBlock, &obrigatorio); 
             printf("\n");
-            if (obrigatorio == 1)
+            if (obrigatorio == 1){
                 strcat(nomeficheiro, ".rle");
-            printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);      
+                descodificar_rle = 1;
+            }   
+            //printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);      
             strcpy(nomefreq, nomeficheiro);
-            Tmain(strcat(nomefreq, ".freq"));
+            strcat(nomefreq, ".freq") ;
+            Tmain(nomefreq);            
             moduloC(nomeficheiro);
-            printf ("4\n");
+            strcpy(nomeshaf, nomeficheiro);
+            printf("\n");
+            printf("\n");
+            Dmain1(argc, strcat(nomeshaf, ".shaf"), descodificar_rle, descodificar_sf);
+
         }
     } 
     return 0;
