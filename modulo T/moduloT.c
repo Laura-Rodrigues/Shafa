@@ -1,6 +1,4 @@
-#include "moduloB.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "moduloT.h"
 #include <time.h>
 
 
