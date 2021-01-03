@@ -62,7 +62,7 @@ void modulo_T (char *ficheiroFreq, char *ficheiroCod){
     }
 }
 
-int main() {
+int Tmain() {
     char *freq_name="aaa.txt.freq", *cod_name, *freq_extension=".freq",
             *cod_extension=".cod", *extension;
 
@@ -82,13 +82,6 @@ int main() {
         modulo_T(freq_name,cod_name);
         clock_t end = clock();
         double time_spent = (double)(end - begin) / CLOCKS_PER_SEC; // para escrever na consola o tempo que demorou a executar o módulo
-
-
-
-    //time_t now = time ( NULL );
-    //struct tm *date = localtime ( &now ); // para escrever na consola a data correta
-
-    //printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
 
     // Texto de saída na consola
     printf("\nTempo de execução do módulo (milissegundos): %f ms\n", time_spent*1000);
