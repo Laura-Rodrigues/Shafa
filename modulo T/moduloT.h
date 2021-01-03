@@ -15,5 +15,6 @@ int melhorDiv(int freqs[],int i,int j);
 void add_bit_to_code(char *bit, unsigned char *codes[], int start, int end);
 void shannon (int freqs[], unsigned char *codes[], int start, int end);
 void modulo_T (char *ficheiroFreq, char *ficheiroCod);
+int Tmain(char *freq_name);
 
 #endif //SHAFA_MODULOT_H
