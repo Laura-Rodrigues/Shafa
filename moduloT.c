@@ -173,7 +173,7 @@ void modulo_T (char *ficheiroFreq, char *ficheiroCod){
             if(b<blocos) printf("/");  // texto da consola
             b++;
         }
-        printf(" bytes");  // texto da consola
+        printf(" bytes\n");  // texto da consola
         fprintf(cod,"@0"); 
         fclose(f);
         fclose(cod);
