@@ -30,30 +30,15 @@ void bubbleSort(unsigned int arr_cod[],int arr_altura[],int arr_carater[], int n
            swap(&arr_altura[j], &arr_altura[j+1]);
            swap(&arr_cod[j], &arr_cod[j+1]);
            swap(&arr_carater[j], &arr_carater[j+1]);
-
-        
            swapped = 1; 
         } 
      } 
   
-     // IF no two elements were swapped by inner loop, then break 
+     // se nao houve trocas entao quebra o ciclo
      if (!swapped) 
         break; 
    } 
 } 
-
-
-
-#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
-#define BYTE_TO_BINARY(byte)  \
-  (byte & 0x80 ? '1' : '0'), \
-  (byte & 0x40 ? '1' : '0'), \
-  (byte & 0x20 ? '1' : '0'), \
-  (byte & 0x10 ? '1' : '0'), \
-  (byte & 0x08 ? '1' : '0'), \
-  (byte & 0x04 ? '1' : '0'), \
-  (byte & 0x02 ? '1' : '0'), \
-  (byte & 0x01 ? '1' : '0') 
 
 
 
@@ -78,7 +63,7 @@ int get_tam_bloco (FILE *f)
 {
     int tam_blocos=0,i=0;
 
-    char c, *arr=malloc(sizeof(char));
+    char c;
     
     //Descobre o numero de blocos do ficheiro
 	fscanf(f, "%d@", &tam_blocos);
@@ -93,21 +78,22 @@ int get_tam_bloco (FILE *f)
 
 
 
-void escreve_ficheiro(char simbolos[],char *filename,int *posicao,int *tamanho)
+void escreve_ficheiro(char simbolos[],char *filename,int *tamanho)
 {
     //Abre um ficheiro novo e é carregado com os carateres descodificados
     int i=0;
    //Cria um novo ficheiro com nome "filename"
-    FILE *f = fopen(filename,"w");
+    FILE *f = fopen(filename,"a");
 
-    fseek(f,*posicao,SEEK_SET);
+    fseek(f,0,SEEK_END);
+    
     while (i<*tamanho)
     {
         fputc(simbolos[i],f);
         i++;
     }
-    *posicao = ftell(f);
-    fclose(f);
+   
+    
     
 
 }
@@ -134,16 +120,15 @@ void escreve_ficheiro(char simbolos[],char *filename,int *posicao,int *tamanho)
 char  *descompressao_shafa(unsigned char arr[],int tam_bloco,NODO *codes,int *tamanho)
 {
     
-    
     NODO *inicio = codes;
     int i=0,altura_ciclo=1,  flag_procu_simbolo=1;
     //Percursor do bit atual que estamos a percorrer
     unsigned char percursor1 = 0x80; 
     unsigned char simbolo= 0x00;// Simbolo a ser procurado nos Nodos
     
-    char simbolos[tam_bloco*8];//Simbolos descodificados
-    char *ptr = simbolos;//Apontador para o inicio do array;
-    *tamanho = 0;
+    char *simbolos = malloc(tam_bloco*8*sizeof(char));//Simbolos descodificados
+    
+    
 
     int perc_simbo=0;
     
@@ -166,7 +151,7 @@ char  *descompressao_shafa(unsigned char arr[],int tam_bloco,NODO *codes,int *ta
             percursor1 = percursor1>>1;// 0100 0000;
             
 
-            while(flag_procu_simbolo && codes->altura <= altura_ciclo)
+            while(flag_procu_simbolo   && codes->altura <= altura_ciclo)
             {
                 if (simbolo == codes->codificacao) 
                 {
@@ -182,8 +167,8 @@ char  *descompressao_shafa(unsigned char arr[],int tam_bloco,NODO *codes,int *ta
                     altura_ciclo = 1;
                     (*tamanho)++;
                 }
-                else codes = codes->prox;
-                
+                else{ codes = codes->prox;}
+            
             }
             //percorrer mais nodos com altura superior
             if (flag_procu_simbolo) altura_ciclo++; 
@@ -197,149 +182,11 @@ char  *descompressao_shafa(unsigned char arr[],int tam_bloco,NODO *codes,int *ta
         
         }
     
-    
-    return ptr;
-}
-
-
-/*
-char  *descompressao_shafa_rle(unsigned char arr[],int tam_bloco,NODO *codes,int *tamanho)
-{
-    
-    
-    NODO *inicio = codes;
-    int i=0,altura_ciclo=1,  flag_procu_simbolo=1;
-    //Percursor do bit atual que estamos a percorrer
-    unsigned char percursor1 = 0x80; 
-    unsigned char simbolo= 0x00;// Simbolo a ser procurado nos Nodos
-    
-    char simbolos[tam_bloco*8];//Simbolos descodificados
-    char *ptr = simbolos;//Apontador para o inicio do array;
-
-    int perc_simbo=0;
-    
-    int sequencia = 1;
-    char char_anterior;
-    char char_atual;
-    *tamanho = 0;
-    
-    
-
-        while (i<tam_bloco)
-        {
-			//quando o percursor de um byte chegar ao fim, é resetado para o inicio
-            if (percursor1 == 0x00)
-			{
-				i++;
-				percursor1 = 0x80;
-			}
-           
-            //Fazemos o simbolo a ser procurado aumentar um digito binario
-            simbolo = simbolo<<1; //0000 0000
-            
-            if (arr[i] & percursor1) simbolo += 0x01;
-			
-            percursor1 = percursor1>>1;// 0100 0000;
-            
-
-            while(flag_procu_simbolo && codes->altura <= altura_ciclo)
-            {
-                //foi encontrada a codificação
-                if (simbolo == codes->codificacao) 
-                {
-                    char_atual = codes->carater;
-					
-                    
-                    //printf("sequencia = %d\n",sequencia);
-                    //quando o carater anterior for igual ao atual
-                    if ( char_anterior == char_atual)
-                    {
-                        if (sequencia<255) sequencia++;
-                        else 
-                        {
-                        simbolos[perc_simbo] = 0;
-                        simbolos[perc_simbo++] = char_atual;
-                        simbolos[perc_simbo++] = sequencia;
-                        perc_simbo++;
-                        sequencia = 1;
-
-                        }
-                    }
-                    else if ( sequencia > 3)
-                    {
-                        //codigo para inserir rle
-                        simbolos[perc_simbo] = 0;
-                        simbolos[perc_simbo++] = char_atual;
-                        simbolos[perc_simbo++] = sequencia;
-                        perc_simbo++;
-                        //reseta o valor de sequencia
-                        
-
-                        sequencia = 1;
-
-                    }
-                    else
-                    {
-                        
-                        /*
-                        ciclo for para introduzir no array carater repetido no 
-                        maximo 3 vezes
-                        
-                       if (codes->carater == 0)
-                       {
-                           simbolos[perc_simbo] = 0;
-                           simbolos[perc_simbo++] = 0;
-                           simbolos[perc_simbo++] = sequencia;
-                           perc_simbo++;
-                           sequencia = 1;
-                           
-                       }
-                        else 
-                        {
-                        for (;sequencia > 0; sequencia--)
-                        {
-                         simbolos[perc_simbo] = char_atual;
-                         perc_simbo++;
-                        }
-                        //reseta o valor de sequencia
-                        sequencia = 1;
-                        }
-
-                        
-                    }
-                    
-                   
-                    // Reseta os valores para voltar a percorrer o byte
-                    simbolo    = 0x00;
-                    flag_procu_simbolo =0;
-                    altura_ciclo = 1;
-                    char_anterior =char_atual;
-                    (*tamanho)++;
-                    
-                }
-                else codes = codes->prox;
-                
-            }
-            //percorrer mais nodos com altura superior
-            if (flag_procu_simbolo) altura_ciclo++; 
-            else
-             {
-                //acabou a procura do simbolo,reinicia as variaveis
-                codes = inicio; 
-                flag_procu_simbolo = 1;
-             }
-			
-        
-        }
-    
-    
-    return ptr;
+    return simbolos;
 }
 
 
 
-
-*/
 
 char  *descompressao_shafa_rle(unsigned char arr[],int tam_bloco,NODO *codes,int *tamanho)
 {
@@ -350,10 +197,9 @@ char  *descompressao_shafa_rle(unsigned char arr[],int tam_bloco,NODO *codes,int
     //Percursor do bit atual que estamos a percorrer
     unsigned char percursor1 = 0x80; 
     unsigned char simbolo= 0x00;// Simbolo a ser procurado nos Nodos
+
     
-    char simbolos[tam_bloco*8];//Simbolos descodificados
-    char *ptr = simbolos;//Apontador para o inicio do array;
-    *tamanho = 0;
+    char *simbolos= malloc(tam_bloco*8*sizeof(char) );//Simbolos descodificados
 
     int perc_simbo=0;
     int fase = 0;
@@ -364,24 +210,29 @@ char  *descompressao_shafa_rle(unsigned char arr[],int tam_bloco,NODO *codes,int
         while (i<tam_bloco)
         {
 			//quando o percursor de um byte chegar ao fim, é resetado para o inicio
-            if (percursor1 == 0x00)
+            if (percursor1 == 0x00) //0000 0000
 			{
 				i++;
-				percursor1 = 0x80;
+				percursor1 = 0x80;// 1000 0000
 			}
            
             //Fazemos o simbolo a ser procurado aumentar um digito binario
             simbolo = simbolo<<1; //0000 0000
             
+
+            
             if (arr[i] & percursor1) simbolo += 0x01;
+
 			
             percursor1 = percursor1>>1;// 0100 0000;
-            
+           
 
-            while(flag_procu_simbolo && codes->altura <= altura_ciclo)
+            while(flag_procu_simbolo  && codes->altura <= altura_ciclo)
             {
+                
                 if (simbolo == codes->codificacao) 
                 {
+                    
 					if ( codes->carater == 0)
                     {
                         if (fase == 0)
@@ -391,8 +242,6 @@ char  *descompressao_shafa_rle(unsigned char arr[],int tam_bloco,NODO *codes,int
                     }
                     if (fase == 0)
                     {
-
-                    
                     // Carrega para o array simbolos o correspondente carater;
                     simbolos[perc_simbo] = codes->carater;//{0} carater numero
                     perc_simbo++;
@@ -426,8 +275,12 @@ char  *descompressao_shafa_rle(unsigned char arr[],int tam_bloco,NODO *codes,int
                     flag_procu_simbolo =0;
                     altura_ciclo = 1;
                     (*tamanho)++; 
+                    
                 }
-                else codes = codes->prox;
+                else {
+                    
+            codes = codes->prox;
+            }
                 
             }
             //percorrer mais nodos com altura superior
@@ -441,9 +294,7 @@ char  *descompressao_shafa_rle(unsigned char arr[],int tam_bloco,NODO *codes,int
 			
         
         }
-    
-    
-    return ptr;
+    return simbolos;
 }
 
 
@@ -458,44 +309,30 @@ resultado em ficheiro "teste" já descomprimido
 
 
 */
-int get_info_bloco(FILE *f,int tam_bloco,NODO* nodo,int flag_rle,int descodificar,char filename[])
+
+char  *get_info_block(FILE *f,int tam_bloco)
 {
-    int i=0,codigo_binario;
-       
+    unsigned char *arr = malloc(tam_bloco *sizeof(unsigned char));
     
-    char c, arr[tam_bloco];
-
-
+    unsigned char *inicio = arr;
 
     
+    // Le do ficheiro e guarda no array arr
     fread(arr, sizeof(unsigned char),tam_bloco,f);
+    return inicio;
     
+}
+
+int get_info_bloco(char *array_simbolos,char filename[],int *tamanho)
+{
+          
+
   
-int tamanho;
-char *array_simbolos;
-if ( flag_rle && !descodificar)
-{
+escreve_ficheiro(array_simbolos,filename,tamanho);
 
-
-array_simbolos = descompressao_shafa_rle(arr,tam_bloco,nodo,&tamanho);
-}
-else if (descodificar)
-{
-array_simbolos = descompressao_shafa_rle(arr,tam_bloco,nodo,&tamanho);
-}
-else array_simbolos =descompressao_shafa(arr,tam_bloco,nodo,&tamanho);
-
-
-
-
-/*char nome_file[6] = "teste";
-char *ptr_nome = &nome_file[0];*/
-int posicao=0;
- 
-escreve_ficheiro(array_simbolos,filename,&posicao,&tamanho);
-        
+free(array_simbolos);
     
-return tamanho;
+return *tamanho;
 
 }
 
@@ -503,7 +340,9 @@ return tamanho;
 
 
 
-//Descobre a codificacao de um array de carateres e a sua altura
+/*
+Descobre a codificacao de um array de carateres
+*/
 unsigned int arr_to_unsigned(char *codi,int N)
 {
     unsigned int r=0;
@@ -556,7 +395,7 @@ NODO * cria_NODOS(unsigned int arr_codigos[],int arr_carater[],int arr_alturas[]
 
 
 
-NODO* make_NODO(FILE *f,int tam_bloco)
+NODO* make_organizado_NODO(FILE *f,int tam_bloco)
 {
     int contador=0,i=0;
     char c;
@@ -566,31 +405,30 @@ NODO* make_NODO(FILE *f,int tam_bloco)
     unsigned int *array_cod= malloc(256 *sizeof(int));
     int *arr_caracter =malloc(256 *sizeof(int));
     int *arr_altura = malloc(256 *sizeof(int));
-    char arr_byte_bin[16];
+    char arr_byte_bin[30];
     
     int percursor=0;
     
-    
-    while(contador < 255)
+    while((c= fgetc(f)) != '@' ) 
     {
-        if ((c = fgetc(f)) == ';') contador++;
+        if (c == ';') contador++;
         else
         {
-            unsigned int fake;
             
             arr_byte_bin[i] = c;
             i++;
-            
             while((c = fgetc(f)) != ';')
             {
+                if(c == '@')
+                 {
+                    fseek(f,-1,SEEK_CUR);
+                    break;
+                    }
                 arr_byte_bin[i] = c;
                 i++;
                 altura_cod++;
 
             }
-            
-
-                    
 
             
             
@@ -604,18 +442,16 @@ NODO* make_NODO(FILE *f,int tam_bloco)
             percursor++;
             
             contador++;
+            //resetar valores
             altura_cod = 1;
             i=0;
-            
-            
-
 
         }
         
         
     }
-
-    NODO *nodo = cria_NODOS(array_cod,arr_caracter,arr_altura,percursor);
+    
+    NODO *nodo =cria_NODOS(array_cod,arr_caracter,arr_altura,percursor);
     free(arr_altura);
     free(array_cod);
     free(arr_caracter);
@@ -635,7 +471,7 @@ ____________________________________/___________________________/_______________
 
 */
 
-void Dmain(char nome_shaf[],char nome_cod[],int descodificar,char filename[])
+void Dmain(char nome_shaf[],char nome_cod[],int descodificar_rle,int descodificar_sf,char filename[])
 {
     int flag_rle=0,tam_bloco_cod,num_blocos,num_bloco_cod;
     char c;
@@ -658,8 +494,8 @@ void Dmain(char nome_shaf[],char nome_cod[],int descodificar,char filename[])
 	//Descobre se foi usada compressao RLE
     fscanf(filecod, "@%c", &c);
     if(c == 'R') flag_rle = 1;
-    if ( flag_rle && !descodificar) strcat(filename,".rle");
-    else if ( descodificar) strcat(filename,".rle");
+    if ( flag_rle && !descodificar_rle) strcat(filename,".rle");
+    else if ( descodificar_rle) strcat(filename,".rle");
     
 
 
@@ -674,38 +510,61 @@ void Dmain(char nome_shaf[],char nome_cod[],int descodificar,char filename[])
 
     int tam_bloco;
     int tam_antes[num_blocos],tam_depois[num_blocos];
+    FILE *file_final=fopen(filename,"w");
 
     //Ciclo principal para descodificao dos blocos 
+    
     for(int i=0;i<num_blocos;i++)
     {
         tam_bloco_cod = get_tam_bloco(filecod);
         
-        NODO *nodinho = make_NODO(filecod,tam_bloco_cod);
-        c = fgetc(filecod);//carrega outro arroba;
-        /*
-        *
-        * 
-        * 
-        * 
-        * 
-        */
+        NODO *nodo = make_organizado_NODO(filecod,tam_bloco_cod);
+       
+        
         tam_antes[i] = get_tam_bloco(fileshaf);
         
         //Guarda o tamanho do bloco em um array
         
         
-        //Depois de descodificar o ficheiro shafa ele devolve o novo tamanho descomprimido
-        tam_depois[i] = get_info_bloco(fileshaf,tam_antes[i],nodinho,flag_rle,descodificar,filename);
+        char *arr;
+        arr = get_info_block(fileshaf,tam_antes[i]);
+
+        int tamanho=0;
+        char *array_simbolos;
+
         
-        free(nodinho);
+        
+        if (descodificar_sf)
+        array_simbolos = descompressao_shafa(arr,tam_antes[i],nodo,&tamanho);
+        
+        else if (descodificar_rle)
+        array_simbolos = descompressao_shafa_rle(arr,tam_antes[i],nodo,&tamanho);
+        
+        else if ( flag_rle && !descodificar_rle)
+        array_simbolos = descompressao_shafa_rle(arr,tam_antes[i],nodo,&tamanho);
+        else
+        array_simbolos = descompressao_shafa(arr,tam_antes[i],nodo,&tamanho);
+    
+    
+    
+        
+        
+        //Depois de descodificar o ficheiro shafa ele devolve o novo tamanho descomprimido
+        tam_depois[i] = get_info_bloco(array_simbolos,filename,&tamanho);
+        free(arr);
+        free(nodo);
         c = fgetc(fileshaf);// Lê o proximo arroba '@'
         
+        
     }
+    
 
  end = clock();
+ fclose(file_final);
  fclose(fileshaf);
+ fclose(filecod);
 
- double cpu_time_used = ((double) (end - start)/1800);
+ double cpu_time_used = ((double) (end - start)/CLOCKS_PER_SEC * 1000);
  
  
 
@@ -725,9 +584,16 @@ void Dmain(char nome_shaf[],char nome_cod[],int descodificar,char filename[])
  }
  
  printf("TEMPO : %f ms\n",cpu_time_used);
+ printf("Ficheiro gerado : %s\n",filename);
  
  return;
 }
+
+
+
+
+
+
 
 
 
