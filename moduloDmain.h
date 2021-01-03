@@ -32,6 +32,6 @@ NODO *cria_NODOS(unsigned int arr_codigos[],int arr_carater[],int arr_alturas[],
 NODO* make_organizado_NODO(FILE *f,int tam_bloco);
 
 void Dmain2(char nome_shaf[],char nome_cod[],int descodificar_rle,int descodificar_sf,char filename[]);
-int Dmain1(int argc, char *argv[]);
+int Dmain1(int argc, char *shafa, int descodificar_rle,int descodificar_sf);
 
 #endif
