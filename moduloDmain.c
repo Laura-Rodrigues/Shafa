@@ -624,7 +624,7 @@ int Dmain1(int argc, char *shafa, int descodificar_rle,int descodificar_sf)
     if (flag_rle) strcat(cod,".rle.cod");
     else strcat(cod,".cod");
  
-    Dmain(shafa,cod,descodificar_rle,descodificar_sf,filename);
+    Dmain2(shafa,cod,descodificar_rle,descodificar_sf,filename);
 
     return 0;
 }/*
