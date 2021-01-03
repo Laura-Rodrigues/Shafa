@@ -81,7 +81,6 @@ int main (int argc, char *argv[]){
             printf("\n");
             if (obrigatorio == 1){
                 strcat(nomeficheiro, ".rle");
-                descodificar_rle = 1;
             }   
             //printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);      
             strcpy(nomefreq, nomeficheiro);
