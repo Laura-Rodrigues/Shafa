@@ -402,14 +402,14 @@ NODO* make_organizado_NODO(FILE *f,int tam_bloco)
     
     int posicao=0;
     int altura_cod=1;
-    unsigned int *array_cod= malloc(256 *sizeof(int));
+    unsigned int *array_cod = malloc(256 *sizeof(int));
     int *arr_caracter =malloc(256 *sizeof(int));
     int *arr_altura = malloc(256 *sizeof(int));
     char arr_byte_bin[30];
     
     int percursor=0;
     
-    while((c= fgetc(f)) != '@' ) 
+    while((c= fgetc(f)) != '@') 
     {
         if (c == ';') contador++;
         else
@@ -471,7 +471,7 @@ ____________________________________/___________________________/_______________
 
 */
 
-void Dmain(char nome_shaf[],char nome_cod[],int descodificar_rle,int descodificar_sf,char filename[])
+void Dmain2(char nome_shaf[],char nome_cod[],int descodificar_rle,int descodificar_sf,char filename[])
 {
     int flag_rle=0,tam_bloco_cod,num_blocos,num_bloco_cod;
     char c;
@@ -590,23 +590,82 @@ void Dmain(char nome_shaf[],char nome_cod[],int descodificar_rle,int descodifica
 }
 
 
+int Dmain1(int argc, char *argv[])
+{
+ int i;
+ char c;
+ int flag_rle=0;
+ 
+ 
+ char *shafa = argv[1];
+ if (!shafa)
+ {
+     printf("Erro no ficheiro\n");
+     return 1;
+ }
+ 
+ if (i = strlen(shafa) <= 9)
+ {
+    printf("Nome invalido\n");
+    return 1;
+ }
+ if (argc < 4)
+ {
+     printf("Poucos argumentos \n");
+     return 1;
+ }
+ 
+ i = strlen(shafa)  - 5; // é removido o ".shaf"
+ char flag_rle_c[4] = {shafa[i-4],shafa[i-3],shafa[i-2],shafa[i-1]};
+ 
+ if (  !strcmp( flag_rle_c,".rle") )
+ {
+     flag_rle = 1;
+     i = i-4;
 
 
+ }
+ int k;
+ char cod[i+3];
+ for ( k = 0; k < i; k++)
+ {
+     cod[k] = shafa[k];
+ }
 
+ cod[k] = '\0';
+char filename[k];  
+strcpy(filename,cod);
 
+ if (flag_rle)
+ {
+     strcat(cod,".rle.cod");
+ }
+ else strcat(cod,".cod");
+ 
 
+ 
+int descodificar_rle=0;
+int descodificar_sf=0;
+ 
+if ( !strcmp(argv[2],"-m") && !strcmp(argv[3],"d") )
+{
+    if (argc == 6)
+    {
+    if ( !strcmp(argv[4],"-d") )
+    {
+        if ( !strcmp(argv[5],"-r") )
+        descodificar_rle = 1;
+        else if(!strcmp(argv[5],"-s"))
+        descodificar_sf = 1;
+    }
+    }
+     Dmain2(shafa,cod,descodificar_rle,descodificar_sf,filename);
+    
+}
+ else printf("Erro no input\n"); 
+ return 0;
 
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
