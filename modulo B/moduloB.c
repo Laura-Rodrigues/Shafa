@@ -16,7 +16,7 @@ void freqToArray (int freqs[], FILE *f) {
                         j++;
                         r = 0;
                         i = 0;
-                        for(int x=0;x<10;x++) aux[x]=0;
+                        for(int x=0;x<10;x++) aux[x]=0; // zera o que se encontrava na aux 
                     }
                     else{
                         freqs[j] = freqs[j - 1];    //se o ficheiro tiver ; seguidos repete a frequência anterior
