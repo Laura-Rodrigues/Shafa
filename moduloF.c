@@ -10,7 +10,7 @@
  "funcaoFREQ": função auxiliar para obter os ficheiros .freq; "printTerminal": escrita das informações no terminal; "moduloF": principal função do modulo.
 */
 
-#include "ModuloF.h"
+#include "moduloF.h"
 
 
 
