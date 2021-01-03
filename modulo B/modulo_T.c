@@ -62,7 +62,7 @@ void modulo_T (char *ficheiroFreq, char *ficheiroCod){
     }
 }
 
-/*  */
+/* Função que verifica se a extensão do ficheiro está correta. Em caso afirmativo inicia a execução do módulo e a escrita do texto de consola */
 int Tmain(char *freq_name) {
     char *cod_name, *freq_extension=".freq",
             *cod_extension=".cod", *extension;
