@@ -6,7 +6,7 @@
 #include <string.h>
 
 void freqToArray (int freqs[], FILE *f);
-void swap(int v[], int x, int y);
+void swapInt(int v[], int x, int y);
 void decrescenteSortSimb (int v[], int s[], int N);
 void swapChar(unsigned char *v[], int x, int y);
 void crescenteSortSimb (unsigned char *v[], int s[], int N);
