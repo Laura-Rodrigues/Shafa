@@ -35,7 +35,7 @@ void freqToArray (int freqs[], FILE *f) {
     }
 }
 /* Função que troca valores de um array de inteiros (auxiliar da decrescenteSortSimb) */
-void swap(int v[], int x, int y){
+void swapInt(int v[], int x, int y){
     int temp = v[x];
     v[x] = v[y];
     v[y] = temp;
