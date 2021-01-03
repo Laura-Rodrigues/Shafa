@@ -62,11 +62,12 @@ void modulo_T (char *ficheiroFreq, char *ficheiroCod){
     }
 }
 
+/*  */
 int Tmain(char *freq_name) {
     char *cod_name, *freq_extension=".freq",
             *cod_extension=".cod", *extension;
 
-    //escrita da extensão correta no ficheiro cod que vai ser criado
+    // Escrita da extensão correta no ficheiro cod que vai ser criado
     cod_name=(char *)malloc(strlen(freq_name)+1);
 
     extension=freq_name+strlen(freq_name)-strlen(freq_extension);
@@ -83,7 +84,8 @@ int Tmain(char *freq_name) {
         clock_t end = clock();
         double time_spent = (double)(end - begin) / CLOCKS_PER_SEC; // para escrever na consola o tempo que demorou a executar o módulo
 
-    // Texto de saída na consola
+    // Primeira linha do texto da consola está na main do projeto    
+    // Texto de saída na consola - última parte
     printf("Tempo de execução do módulo (milissegundos): %f ms\n", time_spent*1000);
     printf("Ficheiro gerado: %s\n", cod_name);
 }  
