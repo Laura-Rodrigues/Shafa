@@ -41,9 +41,9 @@ int main (int argc, char *argv[]){
             }
             else if (strcmp (argv[i], "-m") == 0 && i <= argc-2){
                 if (strcmp (argv[i+1], "f") == 0) modulo = 1;
-                else if (strcmp (argv[i+1], "t")== 0) modulo = 2; //moduloT(argv[1]);
-                else if (strcmp (argv[i+1], "c")== 0) modulo = 3; //moduloC(argv[1]);
-                else if (strcmp (argv[i+1], "d")== 0)modulo = 4; //verificar argv[2]; moduloD(argv[1], argv[2]);
+                else if (strcmp (argv[i+1], "t")== 0) modulo = 2; 
+                else if (strcmp (argv[i+1], "c")== 0) modulo = 3; 
+                else if (strcmp (argv[i+1], "d")== 0)modulo = 4;
                 i++;
             } 
             else{
@@ -56,15 +56,15 @@ int main (int argc, char *argv[]){
             return 0;
         }
         fclose (fp);
-        time_t now = time ( NULL );
-        struct tm *date = localtime ( &now );
+        //time_t now = time ( NULL );
+        //struct tm *date = localtime ( &now );
 
         if (modulo == 1){
             moduloF(nomeficheiro, tamBlock, &obrigatorio);
         }
       
         else if (modulo == 2){
-            printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
+            //printf("\n\nCláudia Silva, a93177, Laura Rodrigues, a93169, MIEI/CD, %d-%d-%d\n",date->tm_mday,date->tm_mon + 1,date->tm_year + 1900);
             Tmain(nomeficheiro);
         }
         else if (modulo == 3) moduloC(nomeficheiro);
