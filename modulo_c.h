@@ -39,7 +39,6 @@ unsigned char * codificaBloco(unsigned char * ,CODFREQ[][SIMBOLOS], int , int , 
 //ficheiros original e codificado de forma a determinar, posteriormente, a taxa de compressao do ultimo.
 void codificaFile(char *, char , int, CODFREQ[][SIMBOLOS], int *, int*, char *, float *, float *);
 
-//int moduloC(char *filename);
 int moduloC(char *);
 
 
