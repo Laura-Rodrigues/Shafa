@@ -1,6 +1,16 @@
 #include "moduloT.h"
 #include <time.h>
 
+/*
+    Módulo T - parte do trabalho shafa grupo 16, UC de Comunicação de Dados MIEI 2020-2021
+    Período de desenvolvimento de trabalho: 2 de dezembro de 2020 a 3 de janeiro de 2021
+    Autores (por ordel alfabética):
+    Cláudia Silva a93177;
+    Laura Rodrigues a93169;
+
+    Este módulo inclui funções como "freqToArray": leitura das frequências; "shannon": codifica as frequências nos códigos Shannon-Fano; "modulo_T": corpo do módulo;
+    "Tmain": cria nome correto para ficheiro .cod e imprime texto da consola;
+*/
 
 /*Função que recebe um array freqs e um ficheiro.
 * Esta lê os valores das frequências do ficheiro e guarda-as no array freqs.
